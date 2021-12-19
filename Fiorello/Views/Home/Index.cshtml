@@ -12,9 +12,10 @@
 
     <section id="slider">
         <div class="owl-carousel slider">
-            <div> <img src="~/img/h3-slider-background.jpg" alt=""> </div>
-            <div> <img src="~/img/h3-slider-background-2.jpg" alt=""> </div>
-            <div> <img src="~/img/h3-slider-background-3.jpg" alt=""> </div>
+            @foreach (var img in Model.Slider)
+            {
+                <div> <img src="~/img/@img.Image" alt=""> </div>
+            }
         </div>
         <div class="container context pl-lg-5 ml-lg-3">
             <div class="row">
@@ -269,7 +270,8 @@
     <!-- INSTAGRAM START -->
 
     <section id="instagram">
-        <div id="instaImg" class="owl-carousel instagram">
+        <div class="owl-carousel instagram">
+            <div class="instaImg"></div>
         </div>
         <div class="hastag bg-light text-muted py-2 px-3">
             #FIORELLO

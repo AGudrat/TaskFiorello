@@ -20,6 +20,8 @@ namespace Fiorello.Controllers
         public async Task<IActionResult> Index()
         {
             var homeVM = new HomeViewModel {
+                Slider = await _context.Slider
+                                .ToListAsync(),
                 Categories = await _context.Categories
                                     .Where(c => c.IsDeleted == false)
                                     .ToListAsync(),

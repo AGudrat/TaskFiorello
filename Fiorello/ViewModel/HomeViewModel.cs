@@ -5,6 +5,7 @@ namespace Fiorello.ViewModel
 {
     public class HomeViewModel
     {
+        public List<Slider> Slider { get; set; }
         public List<Category> Categories { get; set; }
         public List<Product> Products { get; set; }
         public About About { get; set; }
