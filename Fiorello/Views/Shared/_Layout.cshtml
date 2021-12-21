@@ -9,8 +9,8 @@
     <link rel="icon" href="~/img/favicon.png" sizes="192x192" />
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    <link rel="stylesheet" href="owlcarousel/owl.carousel.min.css">
-    <link rel="stylesheet" href="owlcarousel/owl.theme.default.min.css">
+    <link rel="stylesheet" href="~/owlcarousel/owl.carousel.min.css">
+    <link rel="stylesheet" href="~/owlcarousel/owl.theme.default.min.css">
     <link rel="stylesheet" href="~/css/style.css">
     <title>Fiorello &#8211; @ViewData["Title"]</title>
 </head>
@@ -39,8 +39,6 @@
                                     <a class="nav-link" href="#">Home</a>
                                     <ul class="list-unstyled py-3">
                                         <li class=""><a class="px-1" asp-controller="Home" asp-action="Index">Home</a></li>
-                                        <li class=""><a class="px-1" href="">Home 2</a></li>
-                                        <li class=""><a class="px-1" href="">Home 3</a></li>
                                     </ul>
                                 </li>
                                 <li class="nav-item">
@@ -57,11 +55,9 @@
                                         <div class="row shop py-5">
                                             <div class="col-lg-3">
                                                 <div class="item px-4">
-                                                    <h5>Product Types</h5>
+                                                    <h5>Product</h5>
                                                     <ul class="list-unstyled py-3">
-                                                        <li class=""><a class="px-3" href="">Product Types 1</a></li>
-                                                        <li class=""><a class="px-3" href="">Product Types 2</a></li>
-                                                        <li class=""><a class="px-3" href="">Product Types 3</a></li>
+                                                        <li class=""><a class="px-3" asp-controller="Product" asp-action="Index">Product List</a></li>
                                                     </ul>
                                                 </div>
                                             </div>

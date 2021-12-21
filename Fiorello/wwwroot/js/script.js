@@ -1,6 +1,23 @@
 const instagram = document.getElementById('instaImg');
 $(document).ready(function () {
 
+    $(document).on('click', "#btn-load", function () {
+        let products = document.querySelector(".products");
+        let proCount = document.querySelector(".products").children.length;
+        //const data = { skip: proCount };
+        //fetch("/Product/LoadProduct", {
+        //    method: "POST",
+        //    body: data
+        //})
+
+        fetch("/Product/LoadProduct")
+            .then((response) => {
+                return response.text();
+            })
+            .then((html) => {
+                products.innerHTML+=html
+            })
+    })
     // HEADER
 
     $(document).on('click', '#search', function () {
@@ -132,18 +149,6 @@ $(document).ready(function () {
                     992: {
                         items: 4
                     },
-                    992: {
-                        items: 5
-                    },
-                    992: {
-                        items: 6
-                    },
-                    992: {
-                        items: 7
-                    },
-                    992: {
-                        items: 
-                    }
                 }
             }
         );
