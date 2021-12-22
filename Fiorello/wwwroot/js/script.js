@@ -2,20 +2,23 @@ const instagram = document.getElementById('instaImg');
 $(document).ready(function () {
 
     $(document).on('click', "#btn-load", function () {
+        let button = document.getElementById("btn-load");
         let products = document.querySelector(".products");
         let proCount = document.querySelector(".products").children.length;
-        //const data = { skip: proCount };
-        //fetch("/Product/LoadProduct", {
-        //    method: "POST",
-        //    body: data
-        //})
-
-        fetch("/Product/LoadProduct")
+        let dbProductsCount = document.getElementById("productsCount");
+        if (dbProductsCount == proCount) {
+            button.remove();
+        }
+        fetch("/Product/LoadProduct?skip=" + proCount)
             .then((response) => {
                 return response.text();
             })
             .then((html) => {
-                products.innerHTML+=html
+                products.innerHTML += html;
+                let proCount = document.querySelector(".products").children.length;
+                if (proCount==dbProductsCount) {
+                    button.remove();
+                }
             })
     })
     // HEADER
