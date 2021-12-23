@@ -35,7 +35,7 @@ namespace Fiorello.Controllers
                                          .ToList();
             return PartialView("_ProductPartial", model);
         }
-
+        
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddBasketAsync(int? id)
