@@ -1,0 +1,68 @@
+﻿@model List<BasketItemViewModel>
+@{
+    ViewData["Title"] = "Basket";
+    decimal total = 0;
+    int count = 1;
+}
+
+<div class="container">
+    <div class="row my-5">
+        @if (Model.Count != 0)
+        {
+
+            <table class="table table-dark">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Image</th>
+                        <th scope="col">Selected Count</th>
+                        <th scope="col">Stock Count</th>
+                        <th scope="col">Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model)
+                    {
+                        total += product.Count * product.Price;
+                        <tr>
+                            <th scope="row">@count</th>
+                            <td>@product.Name</td>
+                            <td>
+                                <img src="~/img/@product.Image" style="height:100px;" alt="Alternate Text" />
+                            </td>
+                            <td>
+                                @product.Count
+                            </td>
+                            <td>
+                                @product.StockCount
+                            </td>
+                            <td>
+                                @product.Price
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                </tbody>
+            </table>
+            <p>Total: $@total</p>
+        }
+        else
+        {
+    <div class="container">
+        <div id="basketEmpty" class="col-6 row" style="background-color: rgba(0,0,0,0.2); margin: auto; padding: 10px; font-family: 'Pushster', cursive; font-size:25px">
+            <div class="message row col-12 justify-content-center">
+                <p>Please add something to basket</p>
+            </div>
+            <div class="advice row col-12 justify-content-center">
+                <span>You can add some from <a asp-controller="Product" asp-action="Index">here</a></span>
+            </div>
+        </div>
+    </div>
+   
+           
+
+        }
+    </div>
+</div>
+

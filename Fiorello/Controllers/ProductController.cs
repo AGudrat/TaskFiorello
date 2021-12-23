@@ -36,7 +36,8 @@ namespace Fiorello.Controllers
             return PartialView("_ProductPartial", model);
         }
 
-
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddBasketAsync(int? id)
         {
             if (id == null) return NotFound();
@@ -44,7 +45,7 @@ namespace Fiorello.Controllers
             if (dbProduct == null) return BadRequest();
             List<BasketViewModel> basket = GetBasket();
             UpdateBasket((int)id, basket);
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Product");
         }
         private void UpdateBasket(int id, List<BasketViewModel> basket)
         {
@@ -77,11 +78,39 @@ namespace Fiorello.Controllers
             }
             return basket;
         }
-        public IActionResult Basket()
+
+        public async Task<IActionResult> Basket()
         {
-            return Json(JsonConvert.DeserializeObject<List<BasketViewModel>>(Request.Cookies["basket"]));
+            List<BasketViewModel> basket = GetBasket();
+            List<BasketItemViewModel> model = await GetBasketList(basket);
+            return View(model);
         }
 
-
+        private async Task<List<BasketItemViewModel>> GetBasketList(List<BasketViewModel> basket)
+        {
+            List<BasketItemViewModel> model = new List<BasketItemViewModel>();
+            foreach (BasketViewModel item in basket)
+            {
+                Product dbProduct = await _context.Products
+                                                  .Include(p => p.Images)
+                                                  .FirstOrDefaultAsync(p=>p.Id==item.Id);
+                BasketItemViewModel itemVM = GetBasketItem(item, dbProduct);
+                model.Add(itemVM);
+            }
+            return model;
+        }
+        private BasketItemViewModel GetBasketItem(BasketViewModel item,Product dbProduct)
+        {
+            return new BasketItemViewModel
+            {
+                Id = item.Id,
+                Name = dbProduct.Name,
+                Count = item.Count,
+                StockCount = dbProduct.Count,
+                Image = dbProduct.Images.Where(i => i.IsMain).FirstOrDefault().Image,
+                Price = dbProduct.Price,
+                IsActive = dbProduct.IsDeleted
+            };
+        }
     }
 }
