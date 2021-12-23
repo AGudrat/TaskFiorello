@@ -61,6 +61,8 @@ namespace Fiorello.Controllers
             {
                 basketProduct.Count += 1;
             }
+            Response.Cookies.Append("basket", JsonConvert.SerializeObject(basket));
+
         }
         private List<BasketViewModel> GetBasket()
         {
@@ -75,12 +77,11 @@ namespace Fiorello.Controllers
             }
             return basket;
         }
-
-        
-
         public IActionResult Basket()
         {
             return Json(JsonConvert.DeserializeObject<List<BasketViewModel>>(Request.Cookies["basket"]));
         }
+
+
     }
 }
