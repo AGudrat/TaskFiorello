@@ -5,7 +5,10 @@
     int count = 1;
 }
 
-<div class="container">
+<div class="product-list-header" style="display: flex; align-items: center; justify-content: center; font-family: 'Ubuntu', sans-serif; ">
+    <h1>Product List</h1>
+</div>
+<div class="container product-list-body">
     <div class="row my-5">
         @if (Model.Count != 0)
         {
@@ -38,14 +41,19 @@
                                 @product.StockCount
                             </td>
                             <td>
-                                @product.Price
+                                $@product.Price
                             </td>
                         </tr>
                         count++;
                     }
                 </tbody>
+                <tfoot >
+                    <tr>
+                        <th style="background-color: rgba(1,105,6,0.7)">Total:</th>
+                        <td style="display: flex;padding-right:50px; justify-content: flex-end;width: 374%; background-color: rgba(1,105,6,0.7)">$ @total</td>
+                    </tr>
+                </tfoot>
             </table>
-            <p>Total: $@total</p>
         }
         else
         {
