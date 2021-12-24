@@ -54,22 +54,25 @@
                     </tr>
                 </tfoot>
             </table>
+            <form asp-controller="Product" asp-action="Basket" method="post">
+
+                <button id="clean" class="btn">
+                    Delete
+                </button>
+            </form>
         }
         else
         {
     <div class="container">
         <div id="basketEmpty" class="col-6 row" style="background-color: rgba(0,0,0,0.2); margin: auto; padding: 10px; font-family: 'Pushster', cursive; font-size:25px">
-            <div class="message row col-12 justify-content-center">
-                <p>Please add something to basket</p>
+            <div class="message row col-12 justify-content-center" style="text-align:center">
+                <p>Your basket is empty. Please add something to basket</p>
             </div>
-            <div class="advice row col-12 justify-content-center">
+            <div class="advice row col-12 justify-content-center" style="text-align:center">
                 <span>You can add some from <a asp-controller="Product" asp-action="Index">here</a></span>
             </div>
         </div>
     </div>
-   
-           
-
         }
     </div>
 </div>

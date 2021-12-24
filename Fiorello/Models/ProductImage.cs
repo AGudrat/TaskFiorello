@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace Fiorello.Models
 {
     public class ProductImage

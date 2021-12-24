@@ -19,4 +19,17 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="wwwroot\admin\img\justboil-logo.svg" />
+    <None Include="wwwroot\admin\js\chart.sample.js" />
+    <None Include="wwwroot\admin\js\chart.sample.min.js" />
+    <None Include="wwwroot\admin\js\main.js" />
+    <None Include="wwwroot\admin\js\main.min.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Areas\AdminPanel\Data\" />
+    <Folder Include="Areas\AdminPanel\Models\" />
+  </ItemGroup>
+
 </Project>

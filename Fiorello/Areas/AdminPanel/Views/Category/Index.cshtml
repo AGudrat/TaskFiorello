@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Category>
+@{
+    ViewData["Title"] = "Index";
+    int count = 1;
+
+}
+<section class="section main-section">
+    <div class="card has-table">
+        <header class="card-header">
+            <p class="card-header-title">
+                <span class="icon"><i class="mdi mdi-account-multiple"></i></span>
+                Categories
+            </p>
+            <div class="card-header-icon">
+                <span class="icon"><a asp-action="Create"><i class="far fa-plus-square"></i></a></span>
+            </div>
+            <a href="#" class="card-header-icon">
+                <span class="icon"><i class="mdi mdi-reload"></i></span>
+            </a>
+        </header>
+        <div class="card-content">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="checkbox-cell">
+                            <label class="checkbox">
+                                <input type="checkbox">
+                                <span class="check"></span>
+                            </label>
+                        </th>
+                        <th class="image-cell"></th>
+                        <th>№</th>
+                        <th>Category</th>
+                        <th>Settings</th>
+                        <th>Created</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var ct in Model)
+                    {
+                        <tr>
+                            <td class="checkbox-cell">
+                                <label class="checkbox">
+                                    <input type="checkbox">
+                                    <span class="check"></span>
+                                </label>
+                            </td>
+                            <td class="image-cell">
+                            </td>
+                            <td data-label="Number">@count</td>
+                            <td data-label="Category">@ct.Name</td>
+                            <td data-label="City">South Cory</td>
+                            <td data-label="Created">
+                                <small class="text-gray-500" title="Oct 25, 2021">Oct 25, 2021</small>
+                            </td>
+                            <td class="actions-cell">
+                                <div class="buttons right nowrap">
+                                    <a asp-action="Detail" asp-route-id="@ct.Id">
+                                        <button class="button small green --jb-modal" type="button">
+                                            <span class="icon"><i class="mdi mdi-eye"></i></span>
+                                        </button>
+                                    </a>
+                                    
+                                    <a asp-action="Update" asp-route-id="@ct.Id">
+                                        <button style="background-color:yellow" class="button small --jb-modal" type="button">
+                                            <span class="icon"><i class="fas fa-pen-square"></i></span>
+                                        </button>
+                                    </a>
+                                    
+                                    <a asp-action="Delete" asp-route-id="@ct.Id">
+                                         <button class="button small red --jb-modal" type="button">
+                                        <span class="icon"><i class="mdi mdi-trash-can"></i></span>
+                                    </button>
+                                    </a>
+                                   
+                                </div>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+
+                </tbody>
+            </table>
+            <div class="table-pagination">
+                <div class="flex items-center justify-between">
+                    <div class="buttons">
+                        <button type="button" class="button active">1</button>
+                        <button type="button" class="button">2</button>
+                        <button type="button" class="button">3</button>
+                    </div>
+                    <small>Page 1 of 3</small>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</section>
+

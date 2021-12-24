@@ -1,5 +1,7 @@
-const instagram = document.getElementById('instaImg');
 $(document).ready(function () {
+    $(document).on('click', "#clean", function () {
+        document.cookie = "basket=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    })
 
     $(document).on('click', "#btn-load", function () {
         let button = document.getElementById("btn-load");

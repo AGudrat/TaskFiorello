@@ -1,4 +1,5 @@
 using Fiorello.DAL;
+using Fiorello.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ namespace Fiorello
             {
                 options.UseSqlServer(Configuration["ConnectionStrings:Default"]);
             });
+            services.AddScoped<LayoutServices>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +53,14 @@ namespace Fiorello
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "default",
+                    pattern: "{area:exists}/{controller=Dashboard}/{action=Index}/{id?}"
+                    );
+            });
 
             app.UseEndpoints(endpoints =>
             {

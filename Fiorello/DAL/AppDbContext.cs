@@ -19,5 +19,6 @@ namespace Fiorello.DAL
         public DbSet<AboutVideo> AboutVideo { get; set; }
         public DbSet<Experts> Experts { get; set; }
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<Setting> Settings { get; set; }
     }
 }
