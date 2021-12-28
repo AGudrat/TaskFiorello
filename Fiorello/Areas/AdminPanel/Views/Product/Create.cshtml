@@ -1,0 +1,49 @@
+﻿@model Product
+@{
+    ViewData["Title"] = "Create";
+}
+<div class="row">
+    <div class="card-content">
+        <form method="post">
+            <div class="field">
+                <div class="field-body">
+                    <div class="field">
+                        <div class="control icons-left">
+                            <input asp-for="Name" class="input" type="text" name="Name" id="product" placeholder="Product name">
+                            <span class="icon left"><i class="mdi mdi-account"></i></span>
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                        <div class="control icons-left">
+                            <input asp-for="Price" class="input" type="number" name="Price" id="product" placeholder="Price">
+                            <span class="icon left"><i class="mdi mdi-account"></i></span>
+                            <span class="text-danger" asp-validation-for="Price"></span>
+                        </div>
+                        <div class="control icons-left">
+                            @*<select id="SelectedTags" multiple="multiple" name="SelectedTags">
+                                
+                                <option value="">Model.Category.Name</option>
+                                
+                            </select>*@
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="field grouped">
+                <div class="control">
+                    <button type="submit" class="button green">
+                        Submit
+                    </button>
+                    <a class="btn btn-light" asp-action="Index">Cancel</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationPartial" />
+}

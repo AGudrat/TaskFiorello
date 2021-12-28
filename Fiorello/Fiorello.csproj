@@ -7,6 +7,16 @@
   <ItemGroup>
     <Compile Remove="Migrations\20211218161958_AddedAboutTable.cs" />
     <Compile Remove="Migrations\20211218161958_AddedAboutTable.Designer.cs" />
+    <Compile Remove="Migrations\20211225212009_FixedDateTimeBlog.cs" />
+    <Compile Remove="Migrations\20211225212009_FixedDateTimeBlog.Designer.cs" />
+    <Compile Remove="Migrations\20211225212115_CategoriesLenght.cs" />
+    <Compile Remove="Migrations\20211225212115_CategoriesLenght.Designer.cs" />
+    <Compile Remove="Migrations\20211225212136_FixedDateTimeBlog.cs" />
+    <Compile Remove="Migrations\20211225212136_FixedDateTimeBlog.Designer.cs" />
+    <Compile Remove="Migrations\20211225212219_FixedDateTimeBlog.cs" />
+    <Compile Remove="Migrations\20211225212219_FixedDateTimeBlog.Designer.cs" />
+    <Compile Remove="Migrations\20211225233850_AddedToCategoryDataRow.cs" />
+    <Compile Remove="Migrations\20211225233850_AddedToCategoryDataRow.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +40,7 @@
   <ItemGroup>
     <Folder Include="Areas\AdminPanel\Data\" />
     <Folder Include="Areas\AdminPanel\Models\" />
+    <Folder Include="Areas\ViewModel\" />
   </ItemGroup>
 
 </Project>
