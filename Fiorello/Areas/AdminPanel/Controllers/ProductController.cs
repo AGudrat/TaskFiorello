@@ -30,6 +30,7 @@ namespace Fiorello.Areas.AdminPanel.Controllers
 
         public IActionResult Create()
         {
+            ViewBag.Categories = _context.Categories.Where(c => c.IsDeleted==false).ToList();
             return View();
         }
 
@@ -53,5 +54,13 @@ namespace Fiorello.Areas.AdminPanel.Controllers
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Delete(int id)
+        {
+
+            return View();
+        }
+
     }
 }

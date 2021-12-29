@@ -17,7 +17,7 @@ namespace Fiorello.Areas.AdminPanel.Controllers
         }
         public IActionResult Index()
         {
-            return View(_context.Categories.Where(c => c.IsDeleted==false).ToList());
+            return View(_context.Categories.Where(c => c.IsDeleted == false).ToList());
         }
 
         public IActionResult Create()
@@ -34,7 +34,7 @@ namespace Fiorello.Areas.AdminPanel.Controllers
                 return View();
             }
             bool isExist = _context.Categories
-                                   .Any(c => c.Name.ToLower().Trim() == category.Name.ToLower().Trim() && c.IsDeleted==false);
+                                   .Any(c => c.Name.ToLower().Trim() == category.Name.ToLower().Trim() && c.IsDeleted == false);
             if (isExist)
             {
                 ModelState.AddModelError("Name", "*Bu kateqoriya artıq mövcuddur.");
@@ -55,16 +55,13 @@ namespace Fiorello.Areas.AdminPanel.Controllers
         }
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Update(int id,Category category)
+        public async Task<IActionResult> Update(int id, Category category)
         {
-            if (!ModelState.IsValid)
-            {
-                return View();
-            }
+            if (!ModelState.IsValid) { return View(); }
             if (id != category.Id) { return BadRequest(); }
 
             Category dbCategory = await _context.Categories
-                                                .Where(c =>c.IsDeleted == false && c.Id==category.Id)
+                                                .Where(c => c.IsDeleted == false && c.Id == category.Id)
                                                 .FirstOrDefaultAsync();
 
             if (dbCategory == null) { return NotFound(); }
@@ -98,9 +95,9 @@ namespace Fiorello.Areas.AdminPanel.Controllers
         public async Task<IActionResult> DeletePost(int id)
         {
             Category dbCategory = await _context.Categories
-                                                .Where(c => c.IsDeleted == false && c.Id==id)
+                                                .Where(c => c.IsDeleted == false && c.Id == id)
                                                 .FirstOrDefaultAsync();
-            if (dbCategory==null)
+            if (dbCategory == null)
             {
                 return NotFound();
             }

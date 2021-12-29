@@ -1,0 +1,35 @@
+﻿@model Slider
+@{
+    ViewData["Title"] = "Slider";
+}
+
+<div class="row">
+    <div class="card-content">
+        <form method="post" asp-action="Update" enctype="multipart/form-data">
+            <div class="field">
+                <label asp-for="Photo">Update Slider</label>
+                <div class="field-body">
+                    <div class="field">
+                        <label asp-for="Photo">Current Image</label>
+                        <img src="~/img/@Model.Image" alt="" />
+                        <div class="control icons-left">
+                            <input asp-for="Photo" class="input" name="Photo" id="slide">
+                            <span class="icon left"><i class="mdi mdi-account"></i></span>
+                            <span class="text-danger" asp-validation-for="Photo"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="field grouped">
+                <div class="control">
+                    <button type="submit" class="button green">
+                        Update
+                    </button>
+                    <a class="btn btn-light" asp-action="Index">Go Back</a>
+                </div>
+
+            </div>
+        </form>
+    </div>
+</div>

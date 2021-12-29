@@ -15,6 +15,7 @@ namespace Fiorello.Models
         public int Count { get; set; }
         public bool IsDeleted { get; set; }
         public int CategoryId { get; set; }
+        [Required(ErrorMessage ="*Xahiş olunur kateqoriyanı seçin.")]
         public Category Category { get; set; }
         public ICollection<ProductImage> Images { get; set; }
     }

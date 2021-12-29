@@ -1,5 +1,5 @@
 ﻿
-@model Slider 
+@model MultipleSliderViewModel 
 @{
     ViewData["Title"] = "Create";
 }
@@ -7,14 +7,14 @@
     <div class="card-content">
         <form method="post" enctype="multipart/form-data">
             <div class="field">
-                <label asp-for="Photo">Add Image</label>
+                <label asp-for="Photos">Create Slider</label>
                 <div class="field-body">
                     <div class="field">
-                        <label asp-for="Photo">Slider</label>
+                        <label asp-for="Photos">Slect Images:</label>
                         <div class="control icons-left">
-                            <input asp-for="Photo" class="input" accept="image/*">
-                            <span class="text-danger" asp-validation-for="Photo"></span>
-
+                            <input type="file" ID="photoUpload" asp-for="Photos" multiple="multiple" class="input" accept="image/*">
+                            <label ID="myLabel" style="color:red" />
+                            <span class="text-danger" asp-validation-for="Photos"></span>
                         </div>
                     </div>
                 </div>
@@ -22,7 +22,7 @@
 
             <div class="field grouped">
                 <div class="control">
-                    <button type="submit" class="button green">
+                    <button id="btnUpload" type="submit" class="button green d-none">
                         Save
                     </button>
                     <a class="btn btn-light" asp-action="Index">Cancel</a>
@@ -37,3 +37,5 @@
 @section Scripts{
     <partial name="_ValidationPartial" />
 }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="~/admin/js/custom.js"></script>
