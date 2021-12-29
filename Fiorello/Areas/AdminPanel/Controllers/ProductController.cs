@@ -58,8 +58,16 @@ namespace Fiorello.Areas.AdminPanel.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(int id)
         {
-
-            return View();
+            Product dbProduct = await _context.Products
+                                                .Where(c => c.IsDeleted == false && c.Id == id)
+                                                .FirstOrDefaultAsync();
+            if (dbProduct == null)
+            {
+                return NotFound();
+            }
+            dbProduct.IsDeleted = true;
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
     }
