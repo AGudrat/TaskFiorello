@@ -1,0 +1,35 @@
+﻿@model Paginate<ProductListViewModel>
+<div class="table-pagination">
+
+    <ul class="pagination justify-content-center">
+        @if (Model.PageCount > 0)
+        {
+            @if (Model.CurrentPage > 1)
+            {
+                <li class="page-item">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage-1)">
+                        Previus
+                    </a>
+                </li>
+            }
+            @for (int i = Model.StartPage; i <= Model.EndPage; i++)
+            {
+                <li class="page-item @(i == Model.CurrentPage ? "active" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@i">
+                        @i
+                    </a>
+                </li>
+            }
+
+            @if (Model.CurrentPage < Model.PageCount)
+            {
+                <li class="page-item @(Model.CurrentPage == Model.PageCount ? "disabled" : "")">
+                    <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage+1)">
+                        Next
+                    </a>
+                </li>
+            }
+
+        }
+    </ul>
+</div>
