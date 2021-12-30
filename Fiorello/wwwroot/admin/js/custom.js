@@ -1,16 +1,4 @@
-﻿// $(document).ready(function (){
-//         $('#FileUpload2').change(function () {
-//             var files = $(this)[0].files;
-//             if (files.lenght != 6) {
-//                 alert("Six files have to be selected at a time!");
-//             }
-//             else {
-//                 submit();//your custom method to submit the form
-//             }
-//         })
-// });
-
-
+﻿
 $(function () {
     $('#photoUpload').change(
         function () {
@@ -24,4 +12,4 @@ $(function () {
                 $('#myLabel').html(" ");
             }
         })
-}) 
+})

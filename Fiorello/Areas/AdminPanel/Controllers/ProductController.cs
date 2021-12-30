@@ -1,6 +1,12 @@
 ﻿using Fiorello.DAL;
 using Fiorello.Models;
+using Fiorello.Utilities;
+using Fiorello.ViewModel.Product;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -10,65 +16,57 @@ using System.Threading.Tasks;
 namespace Fiorello.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
-   
+
     public class ProductController : Controller
     {
         private AppDbContext _context { get; }
+        private IWebHostEnvironment _env { get; }
 
-        public ProductController(AppDbContext context)
+        public ProductController(AppDbContext context, IWebHostEnvironment env)
         {
             _context = context;
+            _env = env;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int page=1,int take=5)
         {
-            return View(_context.Products
-                                .Where(p => p.IsDeleted==false)
-                                .Include(c => c.Category)
-                                .OrderByDescending(p => p.Id)
-                                .ToList());
+            var products = await _context.Products
+                                   .Where(p => p.IsDeleted == false)
+                                   .OrderByDescending(p => p.Id)
+                                   .Skip((page-1)*take)
+                                   .Take(take)
+                                   .Include(p => p.Images)
+                                   .Include(p => p.Category)
+                                   .ToListAsync();
+            var productVms = GetProductList(products);
+            int pageCount = GetPageCount(take);
+            Paginate<ProductListViewModel> model = new Paginate<ProductListViewModel>(productVms, page, pageCount);
+            this.ViewBag.Paginit = model;
+            return View(model);
+        }
+        private int GetPageCount(int take)
+        {
+            var productCount =_context.Products.Where(p => p.IsDeleted == false).Count();
+            return (int)Math.Ceiling(((decimal)productCount / take));
         }
 
-        public IActionResult Create()
+        private List<ProductListViewModel> GetProductList(List<Product> products)
         {
-            ViewBag.Categories = _context.Categories.Where(c => c.IsDeleted==false).ToList();
-            return View();
-        }
-
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(Product product)
-        {
-            if(!ModelState.IsValid)
+            List<ProductListViewModel> model = new List<ProductListViewModel>();
+            foreach (var item in products)
             {
-                return View();
+                var product = new ProductListViewModel
+                {
+                    Id = item.Id,
+                    Name = item.Name,
+                    Count = item.Count,
+                    Price = item.Price,
+                    CategoryName = item.Category.Name,
+                    Image = item.Images.Where(i => i.IsMain).FirstOrDefault().Image
+                };
+                model.Add(product);
             }
-
-            bool isExsist = _context.Products
-                                    .Any(p => p.Name.ToLower().Trim() == product.Name.ToLower().Trim());
-            if (isExsist)
-            {
-                ModelState.AddModelError("Name", "*Bu product artıq mövcuddur.");
-                return View();
-            }
-            await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return model;
         }
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Delete(int id)
-        {
-            Product dbProduct = await _context.Products
-                                                .Where(c => c.IsDeleted == false && c.Id == id)
-                                                .FirstOrDefaultAsync();
-            if (dbProduct == null)
-            {
-                return NotFound();
-            }
-            dbProduct.IsDeleted = true;
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
+      
     }
 }

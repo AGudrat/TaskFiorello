@@ -1,11 +1,13 @@
-﻿@model ProductCreateViewModel
+﻿@model Product
 @{
-    ViewData["Title"] = "Create";
+    ViewData["Title"] = "Update";
 }
+
 <div class="row">
     <div class="card-content">
         <form method="post">
             <div class="field">
+                <label asp-for="Name">Update Products</label>
                 <div class="field-body">
                     <div class="field">
                         <div class="control icons-left">
@@ -23,33 +25,36 @@
                             <span class="icon left"><i class="mdi mdi-account"></i></span>
                             <span class="text-danger" asp-validation-for="Count"></span>
                         </div>
-                        <div class="control icons-left">
-                            <input asp-for="Photos" class="input" type="number" name="Count" id="product" placeholder="Count">
-                            <span class="icon left"><i class="mdi mdi-account"></i></span>
-                            <span class="text-danger" asp-validation-for="Photos"></span>
-                        </div>
                         <div class="form-group control icons-left">
-                                
+                            <label asp-for="CategoryId" class="control-lable"></label>
+                            <select id="category" class="custom-select" name="CategoryId" asp-for="CategoryId">
+                                <option value="">Choose Category</option>
+                                @foreach (var ct in ViewBag.Categories)
+                                {
+                                    <option value="@ct.Id">@ct.Name</option>
+                                }
+                            </select>
+                            <span class="text-danger" asp-validation-for="Category"></span>
 
                         </div>
 
                     </div>
+
                 </div>
             </div>
 
             <div class="field grouped">
                 <div class="control">
                     <button type="submit" class="button green">
-                        Submit
+                        Update
                     </button>
-                    <a class="btn btn-light" asp-action="Index">Cancel</a>
+                    <a class="btn btn-light" asp-action="Index">Go Back</a>
                 </div>
 
             </div>
         </form>
     </div>
 </div>
-
 
 @section Scripts{
     <partial name="_ValidationPartial" />
