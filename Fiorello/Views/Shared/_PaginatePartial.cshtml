@@ -10,6 +10,11 @@
                         Previus
                     </a>
                 </li>
+                <li class="page-item" style="cursor:pointer">
+                    <a class="page-link">
+                        ...
+                    </a>
+                </li>
             }
             @for (int i = Model.StartPage; i <= Model.EndPage; i++)
             {
@@ -22,6 +27,11 @@
 
             @if (Model.CurrentPage < Model.PageCount)
             {
+                <li class="page-item" style="cursor:pointer">
+                    <a class="page-link">
+                        ...
+                    </a>
+                </li>
                 <li class="page-item @(Model.CurrentPage == Model.PageCount ? "disabled" : "")">
                     <a class="page-link" asp-action="Index" asp-route-page="@(Model.CurrentPage+1)">
                         Next
