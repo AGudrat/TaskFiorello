@@ -40,7 +40,6 @@ namespace Fiorello.Areas.AdminPanel.Controllers
             var productVms = GetProductList(products);
             int pageCount = GetPageCount(take);
             Paginate<ProductListViewModel> model = new Paginate<ProductListViewModel>(productVms, page, pageCount);
-            this.ViewBag.Paginit = model;
             return View(model);
         }
         private int GetPageCount(int take)

@@ -13,7 +13,7 @@ namespace Fiorello.ViewModel.Product
         public Paginate(List<T> models,int currentPage,int pageCount)
         {
             int startPage = currentPage - 1;
-            int endPage = currentPage + 2;
+            int endPage = currentPage + 1;
 
             if (startPage <= 0)
             {
