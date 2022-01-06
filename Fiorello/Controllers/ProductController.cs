@@ -1,6 +1,7 @@
 ﻿using Fiorello.DAL;
 using Fiorello.Models;
 using Fiorello.ViewModel;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
@@ -10,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Fiorello.Controllers
 {
+    [Authorize]
     public class ProductController : Controller
     {
         private AppDbContext _context { get; }

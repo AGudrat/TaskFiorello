@@ -142,6 +142,17 @@
                                     <li class="">No products in the cart.</li>
                                 </ul>
                             </li>
+                            <li>
+                                @if (User.Identity.IsAuthenticated)
+                                {
+                                    <h4>@User.Identity.Name</h4>
+                                    <a asp-controller="Auth" asp-action="LogOut">Logout</a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="Auth" asp-action="Login">Login</a>
+                                }
+                            </li>
                         </ul>
                     </div>
 

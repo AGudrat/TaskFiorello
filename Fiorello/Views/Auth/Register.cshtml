@@ -1,0 +1,103 @@
+﻿@using Fiorello.ViewModel.Auth
+@model RegisterViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pushster&family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" href="~/img/favicon.png" sizes="192x192" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <title>Fiorello &#8211; @ViewData["Title"]</title>
+</head>
+<body>
+    <section class="pt-5 pb-5 mt-0 align-items-center d-flex bg-dark" style="min-height: 100vh; background-size: cover; background-image: url(https://images.unsplash.com/photo-1477346611705-65d1883cee1e?ixlib=rb-0.3.5&amp;q=80&amp;fm=jpg&amp;crop=entropy&amp;cs=tinysrgb&amp;w=1920&amp;fit=max&amp;ixid=eyJhcHBfaWQiOjMyMDc0fQ&amp;s=c0d43804e2c7c93143fe8ff65398c8e9);">
+        <div class="container-fluid">
+            <div class="row  justify-content-center align-items-center d-flex-row text-center h-100">
+                <div class="col-12 col-md-4 col-lg-3   h-50 ">
+                    <div class="card shadow">
+                        <div class="card-body mx-auto">
+                            <h4 class="card-title mt-3 text-center">Create Account</h4>
+                            <p class="text-center">Get started with your free account</p>
+                            <p>
+                                <a href="" class="btn btn-block btn-info">
+                                    <i class="fab fa-twitter mr-2"></i>Login via Twitter
+                                </a>
+                                <a href="" class="btn btn-block btn-primary">
+                                    <i class="fab fa-facebook-f mr-2"></i>Login via facebook
+                                </a>
+                            </p>
+                            <p class="text-muted font-weight-bold ">
+                                <span>OR</span>
+                            </p>
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <form method="post">
+                                <div class="form-group input-group d-flex flex-column">
+                                    <input asp-for="FullName" class="form-control" placeholder="Full name">
+
+                                    <span asp-validation-for="FullName" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group input-group d-flex flex-column">
+                                    <input asp-for="UserName" class="form-control" placeholder="User name">
+                                    <span asp-validation-for="UserName" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group input-group d-flex flex-column">
+                                    <input asp-for="Email" class="form-control" placeholder="Email">
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group input-group d-flex flex-column">
+                                    <input asp-for="Password" class="form-control" placeholder="Password">
+                                    <span asp-validation-for="Password" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group input-group d-flex flex-column">
+                                    <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password">
+                                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+
+                                </div>
+                                <div class="form-group">
+                                    <button type="submit" class="btn btn-primary btn-block"> Create Account </button>
+                                </div>
+                                <p class="text-center">
+                                    Already have a account?
+                                    <a asp-controller="Auth" asp-action="Login">Log In</a>
+                                </p>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- FOOTER END -->
+    <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+            integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+            crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+            integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+            integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+            crossorigin="anonymous"></script>
+    <script src="https://kit.fontawesome.com/e5e249fce2.js" crossorigin="anonymous"></script>
+    <script src="~/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/js/script.js"></script>
+    <partial name="../../Areas/AdminPanel/Views/Shared/_ValidationPartial.cshtml">
+</body>
+</html>
+
+
