@@ -146,11 +146,11 @@
                                 @if (User.Identity.IsAuthenticated)
                                 {
                                     <h4>@User.Identity.Name</h4>
-                                    <a asp-controller="Auth" asp-action="LogOut">Logout</a>
+                                    <a asp-controller="Accaunt" asp-action="LogOut">Logout</a>
                                 }
                                 else
                                 {
-                                    <a asp-controller="Auth" asp-action="Login">Login</a>
+                                    <a asp-controller="Accaunt" asp-action="Login" asp-route-ReturnUrl="@Context.Request.Path.Value">Login</a>
                                 }
                             </li>
                         </ul>

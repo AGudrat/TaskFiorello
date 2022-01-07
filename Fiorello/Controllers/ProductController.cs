@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 
 namespace Fiorello.Controllers
 {
-    [Authorize]
     public class ProductController : Controller
     {
         private AppDbContext _context { get; }

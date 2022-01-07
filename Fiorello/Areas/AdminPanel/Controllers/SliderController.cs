@@ -3,6 +3,7 @@ using Fiorello.Models;
 using Fiorello.Utilities;
 using Fiorello.Utilities.File;
 using Fiorello.ViewModel.Slider;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,8 @@ using System.Threading.Tasks;
 namespace Fiorello.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
+    [Authorize(Roles = "Admin")]
+
     public class SliderController : Controller
     {
 

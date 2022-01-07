@@ -12,5 +12,11 @@ namespace Fiorello.Utilities.File
                 System.IO.File.Delete(path);
             }
         }
+
     }
+    public enum UserRoles {
+     Admin,
+     Member
+    }
+
 }

@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace Fiorello.Areas.AdminPanel.Controllers
 {
     [Area("AdminPanel")]
-    [Authorize]
+    [Authorize(Roles ="Admin")]
     public class CategoryController : Controller
     {
         private AppDbContext _context { get; }
