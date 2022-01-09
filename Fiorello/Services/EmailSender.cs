@@ -4,18 +4,25 @@ using MailKit.Net.Smtp;
 using MimeKit;
 using System.Threading.Tasks;
 using Org.BouncyCastle.Asn1.Ocsp;
+using Microsoft.Extensions.Configuration;
 
 namespace Fiorello.Services
 
 {
     public class EmailSender : IEmailSender
     {
-        public async Task SendEmailAsycn(MailMessage msg)
+        public EmailSender(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
+        public IConfiguration Configuration { get; }
+        public async Task SendEmailAsync(MailMessage msg)
         {
             try
             {
                 //From Address    
-                string FromAddress = "abidzadeq2002@gmail.com";
+                string FromAddress = msg.From.ToString();
                 string FromAdressTitle = "Welcome To Fiorello!";
                 //To Address    
                 string ToAddress = msg.To.ToString();
@@ -38,7 +45,7 @@ namespace Fiorello.Services
                                          ToAddress
                                          ));
                 mimeMessage.Subject = Subject; //Subject  
-                mimeMessage.Body = new TextPart()
+                mimeMessage.Body = new TextPart(format:MimeKit.Text.TextFormat.Html)
                 {
                     Text = BodyContent
                 };
@@ -48,8 +55,8 @@ namespace Fiorello.Services
            
                     client.Connect(SmtpServer, SmtpPortNumber, false);
                     client.Authenticate(
-                        "abidzadeq2002@gmail.com",
-                        "qudret2002"
+                        msg.From.ToString(),
+                        Configuration["Email:Password"]
                         );
                     await client.SendAsync(mimeMessage);
                     await client.DisconnectAsync(true);

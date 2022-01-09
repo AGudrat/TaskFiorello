@@ -1,9 +1,11 @@
 using Fiorello.DAL;
 using Fiorello.Models;
 using Fiorello.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -30,6 +32,13 @@ namespace Fiorello
             {
                 options.IdleTimeout = TimeSpan.FromSeconds(20);
             });
+            services.AddMvc(options =>
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                                 .RequireAuthenticatedUser()
+                                 .Build();
+                options.Filters.Add(new AuthorizeFilter(policy));   
+            }).AddXmlSerializerFormatters();
             services.AddControllersWithViews();
             services.AddDbContext<AppDbContext>(options =>
             {

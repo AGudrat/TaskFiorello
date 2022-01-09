@@ -6,6 +6,6 @@ namespace Fiorello.Services
     public interface IEmailSender
     {
         Task SendSmsAsync(string number, string message);
-        Task SendEmailAsycn(MailMessage msg);
+        Task SendEmailAsync(MailMessage msg);
     }
 }

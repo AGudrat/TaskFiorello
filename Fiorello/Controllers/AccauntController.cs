@@ -8,25 +8,32 @@ using System.Threading.Tasks;
 using Fiorello.Services;
 using NETCore.MailKit.Core;
 using System.Net.Mail;
+using Microsoft.Extensions.Configuration;
+using Microsoft.AspNet.Identity;
 
 namespace Fiorello.Controllers
 {
+
     public class AccauntController : Controller
     {
-        private UserManager<ApplicationUser> _userManager;
+
+        private IConfiguration _configuration;
+        private Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        private RoleManager<IdentityRole> _roleManager;
+        private Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> _roleManager;
         private IEmailSender _emailSender;
 
-        public AccauntController(UserManager<ApplicationUser> userManager,
+        public AccauntController(Microsoft.AspNetCore.Identity.UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
-                              RoleManager<IdentityRole> roleManager,
-                              IEmailSender emailSender)
+                              Microsoft.AspNetCore.Identity.RoleManager<IdentityRole> roleManager,
+                              IEmailSender emailSender,
+                              IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _emailSender = emailSender;
+            _configuration = configuration;
         }
 
         public IActionResult Register()
@@ -49,7 +56,7 @@ namespace Fiorello.Controllers
                 UserName = register.UserName
             };
 
-            IdentityResult identityReult =await _userManager.CreateAsync(newUser,register.Password);
+            Microsoft.AspNetCore.Identity.IdentityResult identityReult =await _userManager.CreateAsync(newUser,register.Password);
             if (!identityReult.Succeeded)
             {
                 foreach (var error in identityReult.Errors)
@@ -59,22 +66,22 @@ namespace Fiorello.Controllers
                 return View(register);
             }
                 var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-                var callbackUrl = Url.Action(nameof(Sumbit), "Accaunt", new
+                var callbackUrl = Url.Action(nameof(Submit), "Accaunt", new
                 {
                     userId = newUser.Id,
                     code
                 },protocol: Request.Scheme);
-            var msg = new MailMessage("abidzadeq2002@gmail.com", register.Email);
+            var msg = new MailMessage(_configuration["Email:SenderEmail"], register.Email);
             msg.Subject = "Confirm your accaunt";
             msg.Body = $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>";
             msg.IsBodyHtml = true;
-            await _emailSender.SendEmailAsycn(msg);
+            await _emailSender.SendEmailAsync(msg);
             ViewBag.ErrorTitle = "Register Succesfuly";
             ViewBag.ErrorMessage = "Please confirm your email.";
             return View("Sumbit");
         }
 
-        public async Task<IActionResult> Sumbit(string userId,string code)
+        public async Task<IActionResult> Submit(string userId,string code)
         {
             var newUser = await _userManager.FindByIdAsync(userId);
             if (newUser == null) return BadRequest();
@@ -131,11 +138,47 @@ namespace Fiorello.Controllers
             }
             return RedirectToAction("Index", "Home");
         }
+
         public async Task<IActionResult> LogOut()
         {
             await _signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
         }
+        [HttpPost]
+        [AutoValidateAntiforgeryToken]
+        public IActionResult ChangePassword()
+        {
+            return View();
+        }
+        public async Task<IActionResult> ChangePassword(ChangePassword model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await _userManager.GetUserAsync(User);
+                if (user==null)
+                {
+                    return RedirectToAction("Login");
+                }
+
+                var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+                if (!result.Succeeded)
+                {
+                    foreach (var error in result.Errors)
+                    {
+                        ModelState.AddModelError(string.Empty, error.Description);
+                    }
+                    return View();
+                }
+                await _signInManager.RefreshSignInAsync(user);
+                ViewBag.ErrorTitle = "Your password reseted!";
+                return View("Submit");
+            }
+            return View(model);
+
+        }
+        
+
+
         private void IsAuthendicated()
         {
             if (User.Identity.IsAuthenticated)
