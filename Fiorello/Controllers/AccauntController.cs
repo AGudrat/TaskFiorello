@@ -3,9 +3,11 @@ using Fiorello.Utilities.File;
 using Fiorello.ViewModel.Auth;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using NETCore.MailKit.Core;
 using System;
 using System.Threading.Tasks;
+using Fiorello.Services;
+using NETCore.MailKit.Core;
+using System.Net.Mail;
 
 namespace Fiorello.Controllers
 {
@@ -13,17 +15,18 @@ namespace Fiorello.Controllers
     {
         private UserManager<ApplicationUser> _userManager;
         private SignInManager<ApplicationUser> _signInManager;
-        private IEmailService _emailService;
         private RoleManager<IdentityRole> _roleManager;
+        private IEmailSender _emailSender;
+
         public AccauntController(UserManager<ApplicationUser> userManager,
                               SignInManager<ApplicationUser> signInManager,
-                              IEmailService emailService,
-                              RoleManager<IdentityRole> roleManager)
+                              RoleManager<IdentityRole> roleManager,
+                              IEmailSender emailSender)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailService = emailService;
             _roleManager = roleManager;
+            _emailSender = emailSender;
         }
 
         public IActionResult Register()
@@ -55,32 +58,34 @@ namespace Fiorello.Controllers
                 }
                 return View(register);
             }
-            //else
-            //{
-            //    //generation of the email token
-            //    var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
-            //    var link = Url.Action(nameof(VerifyEmail), "Auth", new { userId = newUser.Id, code },Request.Scheme,Request.Host.ToString());
-
-            //    await _emailService.SendAsync("abidzadeq2002@gmail.com", "Confirm", $"<a href=\"{link}\">Verify Email<\a>",true);
-
-            //    ViewBag.ErrorTitle("Registration succesful");
-            //    ViewBag.ErrorMessage("Before you can Login, please confirm your email, by clicking on the confirmation link we have emailed you");
-            //    return View("Error");
-            //}
-            await _userManager.AddToRoleAsync(newUser,UserRoles.Admin.ToString());
-            await _signInManager.SignInAsync(newUser, false);
-            return RedirectToAction("Index","Home");
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(newUser);
+                var callbackUrl = Url.Action(nameof(Sumbit), "Accaunt", new
+                {
+                    userId = newUser.Id,
+                    code
+                },protocol: Request.Scheme);
+            var msg = new MailMessage("abidzadeq2002@gmail.com", register.Email);
+            msg.Subject = "Confirm your accaunt";
+            msg.Body = $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>";
+            msg.IsBodyHtml = true;
+            await _emailSender.SendEmailAsycn(msg);
+            ViewBag.ErrorTitle = "Register Succesfuly";
+            ViewBag.ErrorMessage = "Please confirm your email.";
+            return View("Sumbit");
         }
 
-        public async Task<IActionResult> VerifyEmail(string userId,string code)
+        public async Task<IActionResult> Sumbit(string userId,string code)
         {
-            var user = await _userManager.FindByIdAsync(userId);
-            if (user == null) return BadRequest();
-            var result = await _userManager.ConfirmEmailAsync(user,code);
-            if (result.Succeeded) return View();
-            ViewBag.ErrorTitle("Your accaunt verified!");
-            ViewBag.ErrorMessage("Thank you for verifying your email.");
-            return View("Error");
+            var newUser = await _userManager.FindByIdAsync(userId);
+            if (newUser == null) return BadRequest();
+            var result = await _userManager.ConfirmEmailAsync(newUser, code);
+            if (result.Succeeded)
+            {
+                ViewBag.ErrorTitle = "Confirmation complated!";
+                ViewBag.ErrorMessage = "You can login in now!";
+                return View();
+            }
+            return BadRequest();
         }
 
         public IActionResult Login()
@@ -105,7 +110,7 @@ namespace Fiorello.Controllers
             }
             if (!user.IsActivated)
             {
-                ModelState.AddModelError(String.Empty, "Please,activate your account. Check your email.");
+                ModelState.AddModelError(String.Empty, "Your accaunt is not active. Please check your email.");
                 return View(login);
             }
             var signInResult =

@@ -51,6 +51,7 @@ namespace Fiorello
 
                 #region EmailOption
                 IdentityOptions.User.RequireUniqueEmail = true;
+                IdentityOptions.SignIn.RequireConfirmedEmail = true;
                 #endregion
 
                 #region UserOption
@@ -60,8 +61,8 @@ namespace Fiorello
                 #endregion
 
             });
-            var mailKitOptions = Configuration.GetSection("Email").Get<MailKitOptions>();
-            services.AddMailKit(config => { config.UseMailKit(Configuration.GetSection("Email").Get<MailKitOptions>()); });
+            services.AddScoped<IEmailSender, EmailSender>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
